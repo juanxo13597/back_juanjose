@@ -11,7 +11,7 @@ import { AppService } from './app.service';
         host: 'localhost',
         port: 3306,
         username: 'root',
-        password: '',
+        password: '' || '73Y&V5xA',
         database: 'juanjosenavarroperea',
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         synchronize: true, // ! true in dev, false in prod
