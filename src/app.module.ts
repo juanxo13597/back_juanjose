@@ -8,11 +8,11 @@ import { AppService } from './app.service';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'mysql',
-        host: 'localhost',
+        host: process.env.DB_HOST || 'localhost',
         port: 3306,
-        username: 'root',
-        password: '' || '73Y&V5xA',
-        database: 'juanjosenavarroperea',
+        username: process.env.DB_USER || 'root',
+        password: process.env.DB_PASSWORD || '',
+        database: process.env.DB_DB || 'juanjosenavarroperea',
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         synchronize: true, // ! true in dev, false in prod
         autoLoadEntities: true, // ! true in dev, false in prod
