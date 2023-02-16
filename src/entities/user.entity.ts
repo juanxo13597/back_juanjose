@@ -14,6 +14,9 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Column({ length: 20 })
+  password: string;
+
   @Column()
   created_at: Date;
 
