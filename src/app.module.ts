@@ -14,8 +14,8 @@ import { AppService } from './app.service';
         password: process.env.DB_PASSWORD || '',
         database: process.env.DB_DB || 'juanjosenavarroperea',
         entities: [__dirname + '/**/*.entity.{ts,js}'],
-        synchronize: true, // ! true in dev, false in prod
-        autoLoadEntities: true, // ! true in dev, false in prod
+        synchronize: Boolean(process.env.PROD) || true, // ! true in dev, false in prod
+        autoLoadEntities: Boolean(process.env.PROD) || true, // ! true in dev, false in prod
       }),
     }),
   ],
