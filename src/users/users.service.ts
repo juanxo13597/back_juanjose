@@ -48,7 +48,7 @@ export class UsersService {
   /** validar usuario */
   async validateUser(email: string, pass: string): Promise<User | null> {
     const user = await this.findOne(email);
-    const isMatch = await bcrypt.compare(pass, user.password);
+    const isMatch = await bcrypt.compare(pass, user?.password);
 
     return user && isMatch ? user : null;
   }

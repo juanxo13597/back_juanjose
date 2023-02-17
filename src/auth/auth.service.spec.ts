@@ -1,4 +1,3 @@
-import { HttpException } from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -8,6 +7,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
+import { HttpException } from '@nestjs/common/exceptions';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -92,7 +92,7 @@ describe('AuthService', () => {
 
       expect(
         await service.login({ email: 'email@email.es', password: '123123' }),
-      );
+      ).toEqual(new HttpException('Email or password incorrect', 401));
     });
   });
 
