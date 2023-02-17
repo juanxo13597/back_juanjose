@@ -4,7 +4,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { RegisterSavedDTO } from '../auth/dtos/registerUser.dto';
+import {
+  RegisterSavedDTO,
+  RegisterUserDTO,
+} from '../auth/dtos/registerUser.dto';
 
 /** servicio de usuarios */
 @Injectable()
@@ -15,13 +18,10 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  /** obtener todos los usuarios */
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
-  }
-
   /** crear nuevo usuario */
-  async registerUser(newuser): Promise<RegisterSavedDTO | HttpException> {
+  async registerUser(
+    newuser: RegisterUserDTO,
+  ): Promise<RegisterSavedDTO | HttpException> {
     if (await this.findOne(newuser.email)) {
       return new HttpException('Email already exists', 401);
     }
@@ -33,13 +33,11 @@ export class UsersService {
     const hashPassword = await bcrypt.hash(newuser.password, 10);
     newuser.password = hashPassword;
 
-    const userSaved = await this.usersRepository.save(newuser);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, password_confirmation, ...userSaved } =
+      await this.usersRepository.save(newuser);
 
-    return {
-      ...userSaved,
-      password: undefined,
-      password_confirmation: undefined,
-    };
+    return userSaved;
   }
 
   /** buscar usuario */
@@ -48,15 +46,10 @@ export class UsersService {
   }
 
   /** validar usuario */
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(email: string, pass: string): Promise<User> {
     const user = await this.findOne(email);
     const isMatch = await bcrypt.compare(pass, user.password);
 
-    if (user && isMatch) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
+    return user && isMatch ? user : null;
   }
 }

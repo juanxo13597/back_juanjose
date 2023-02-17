@@ -16,6 +16,7 @@ export class LoginUserDTO {
   password: string;
 }
 
+/** login token dto */
 export class LoginTokenDTO {
   /** token */
   @ApiProperty({ required: true })

@@ -38,6 +38,7 @@ export class RegisterUserDTO {
   email: string;
 }
 
+/**register saved dto */
 export class RegisterSavedDTO {
   /** nombre de usuario */
   @ApiProperty({ required: true })
