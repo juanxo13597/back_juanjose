@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   /** comprobacion de backend */
-  @Get('/api/init')
+  @Get('init')
   init(): boolean {
     return this.appService.init();
   }
