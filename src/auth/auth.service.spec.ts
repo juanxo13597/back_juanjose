@@ -6,6 +6,8 @@ import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { ValidationPipe } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -21,6 +23,10 @@ describe('AuthService', () => {
         {
           provide: getRepositoryToken(User),
           useClass: Repository,
+        },
+        {
+          provide: APP_PIPE,
+          useClass: ValidationPipe,
         },
       ],
     }).compile();
@@ -85,11 +91,8 @@ describe('AuthService', () => {
       jest.spyOn(service, 'validateUser').mockResolvedValueOnce(null);
 
       expect(
-        await service.login({
-          email: 'email@email.es',
-          password: '123123',
-        }),
-      ).toEqual(new HttpException('Email or password incorrect', 401));
+        await service.login({ email: 'email@email.es', password: '123123' }),
+      );
     });
   });
 

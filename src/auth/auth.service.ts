@@ -31,12 +31,12 @@ export class AuthService {
 
     const payload = validatedUser;
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign({ payload }),
     };
   }
 
   /** validar usuario */
-  async validateUser(email: string, pass: string): Promise<User> {
+  async validateUser(email: string, pass: string): Promise<User | null> {
     return await this.usersService.validateUser(email, pass);
   }
 }

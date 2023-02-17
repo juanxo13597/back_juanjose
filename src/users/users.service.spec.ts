@@ -1,4 +1,6 @@
+import { ValidationPipe } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions';
+import { APP_PIPE } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -19,6 +21,10 @@ describe('UsersService', () => {
         {
           provide: getRepositoryToken(User),
           useClass: Repository,
+        },
+        {
+          provide: APP_PIPE,
+          useClass: ValidationPipe,
         },
       ],
     }).compile();

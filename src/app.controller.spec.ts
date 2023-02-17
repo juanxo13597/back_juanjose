@@ -1,3 +1,5 @@
+import { ValidationPipe } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,7 +10,13 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        {
+          provide: APP_PIPE,
+          useClass: ValidationPipe,
+        },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);
