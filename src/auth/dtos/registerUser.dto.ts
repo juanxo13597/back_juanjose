@@ -37,3 +37,24 @@ export class RegisterUserDTO {
   @IsEmail()
   email: string;
 }
+
+export class RegisterSavedDTO {
+  /** nombre de usuario */
+  @ApiProperty({ required: true })
+  @MinLength(2)
+  @MaxLength(10)
+  @IsString()
+  name: string;
+
+  /** apellidos */
+  @ApiProperty({ required: true })
+  @MinLength(2)
+  @MaxLength(20)
+  @IsString()
+  surname: string;
+
+  /** correo electrónico */
+  @ApiProperty({ required: true })
+  @IsEmail()
+  email: string;
+}

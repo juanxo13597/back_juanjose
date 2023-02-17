@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { RegisterSavedDTO } from '../auth/dtos/registerUser.dto';
 
 /** servicio de usuarios */
 @Injectable()
@@ -20,7 +21,7 @@ export class UsersService {
   }
 
   /** crear nuevo usuario */
-  async registerUser(newuser): Promise<User | HttpException> {
+  async registerUser(newuser): Promise<RegisterSavedDTO | HttpException> {
     if (await this.findOne(newuser.email)) {
       return new HttpException('Email already exists', 401);
     }
@@ -34,7 +35,11 @@ export class UsersService {
 
     const userSaved = await this.usersRepository.save(newuser);
 
-    return { ...userSaved, password: undefined };
+    return {
+      ...userSaved,
+      password: undefined,
+      password_confirmation: undefined,
+    };
   }
 
   /** buscar usuario */

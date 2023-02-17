@@ -5,9 +5,8 @@ import { AuthService } from './auth.service';
 import { Controller } from '@nestjs/common';
 import { Body, Post } from '@nestjs/common/decorators';
 import { ApiBody } from '@nestjs/swagger';
-import { User } from '../users/entities/user.entity';
-import { LoginUserDTO } from './dtos/loginUser.dto';
-import { RegisterUserDTO } from './dtos/registerUser.dto';
+import { LoginTokenDTO, LoginUserDTO } from './dtos/loginUser.dto';
+import { RegisterSavedDTO, RegisterUserDTO } from './dtos/registerUser.dto';
 
 /** controlador de autenticación */
 @Controller('auth')
@@ -20,14 +19,14 @@ export class AuthController {
   @Post('register')
   registerUser(
     @Body() newUser: RegisterUserDTO,
-  ): Promise<User | HttpException> {
+  ): Promise<RegisterSavedDTO | HttpException> {
     return this.AuthService.register(newUser);
   }
 
   /** login */
   @ApiBody({ type: LoginUserDTO })
   @Post('login')
-  login(@Body() user: LoginUserDTO): any {
+  login(@Body() user: LoginUserDTO): Promise<LoginTokenDTO | HttpException> {
     return this.AuthService.login(user);
   }
 }

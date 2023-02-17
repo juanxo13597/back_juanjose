@@ -15,3 +15,10 @@ export class LoginUserDTO {
   @IsString()
   password: string;
 }
+
+export class LoginTokenDTO {
+  /** token */
+  @ApiProperty({ required: true })
+  @IsString()
+  access_token: string;
+}
