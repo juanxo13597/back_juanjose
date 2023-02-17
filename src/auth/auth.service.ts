@@ -21,15 +21,20 @@ export class AuthService {
   }
 
   /** login */
-  login(user: LoginUserDTO) {
-    const payload = { ...user };
+  async login(user: LoginUserDTO) {
+    const validatedUser = await this.validateUser(user.email, user.password);
+    if (!validatedUser) {
+      return new HttpException('Email or password incorrect', 401);
+    }
+
+    const payload = validatedUser;
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
 
   /** validar usuario */
-  validateUser(email: string, pass: string): Promise<User> {
-    return this.usersService.findOne(email);
+  async validateUser(email: string, pass: string): Promise<User> {
+    return await this.usersService.validateUser(email, pass);
   }
 }

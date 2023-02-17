@@ -1,4 +1,5 @@
 import { HttpException } from '@nestjs/common/exceptions';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AuthService } from './auth.service';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller } from '@nestjs/common';

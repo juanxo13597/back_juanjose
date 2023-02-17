@@ -37,4 +37,17 @@ export class UsersService {
   findOne(email: string): Promise<User> {
     return this.usersRepository.findOne({ where: { email } });
   }
+
+  /** validar usuario */
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.findOne(email);
+    const isMatch = await bcrypt.compare(pass, user.password);
+
+    if (user && isMatch) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
 }
