@@ -16,8 +16,10 @@ export class AuthService {
   ) {}
 
   /** registro */
-  register(user: RegisterUserDTO): Promise<RegisterSavedDTO | HttpException> {
-    return this.usersService.registerUser(user);
+  async register(
+    user: RegisterUserDTO,
+  ): Promise<RegisterSavedDTO | HttpException> {
+    return await this.usersService.registerUser(user);
   }
 
   /** login */
