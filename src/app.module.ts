@@ -17,8 +17,8 @@ import { CommonModule } from './common/common.module';
         password: process.env.DB_PASSWORD || '',
         database: process.env.DB_DB || 'juanjosenavarroperea',
         entities: [__dirname + '/**/*.entity.{ts,js}'],
-        synchronize: Boolean(process.env.PROD) || true, // ! true in dev, false in prod
-        autoLoadEntities: Boolean(process.env.PROD) || true, // ! true in dev, false in prod
+        synchronize: Boolean(process.env.PROD || true), // ! true in dev, false in prod
+        autoLoadEntities: Boolean(process.env.PROD || true), // ! true in dev, false in prod
       }),
     }),
     UsersModule,
