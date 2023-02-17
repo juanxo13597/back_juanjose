@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 /** servicio de usuarios */
 @Injectable()
@@ -20,17 +21,20 @@ export class UsersService {
 
   /** crear nuevo usuario */
   async registerUser(newuser): Promise<User | HttpException> {
-    if (await this.validateUniqueEmail(newuser.email)) {
+    if (await this.findOne(newuser.email)) {
       return new HttpException('Email already exists', 401);
     }
+
+    const hashPassword = await bcrypt.hash(newuser.password, 10);
+    newuser.password = hashPassword;
 
     const userSaved = await this.usersRepository.save(newuser);
 
     return { ...userSaved, password: undefined };
   }
 
-  /** validar si existe el email */
-  private validateUniqueEmail(email: string): Promise<User> {
+  /** buscar usuario */
+  findOne(email: string): Promise<User> {
     return this.usersRepository.findOne({ where: { email } });
   }
 }

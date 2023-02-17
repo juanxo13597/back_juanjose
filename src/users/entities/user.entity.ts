@@ -21,7 +21,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ length: 20 })
+  @Column()
   password: string;
 
   @CreateDateColumn()
