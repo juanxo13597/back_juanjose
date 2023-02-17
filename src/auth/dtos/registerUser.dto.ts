@@ -25,6 +25,13 @@ export class RegisterUserDTO {
   @IsString()
   password: string;
 
+  /** confirmacion de password */
+  @ApiProperty({ required: true })
+  @MinLength(6)
+  @MaxLength(20)
+  @IsString()
+  password_confirmation: string;
+
   /** correo electrónico */
   @ApiProperty({ required: true })
   @IsEmail()

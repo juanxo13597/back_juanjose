@@ -25,6 +25,10 @@ export class UsersService {
       return new HttpException('Email already exists', 401);
     }
 
+    if (newuser.password !== newuser.password_confirmation) {
+      return new HttpException('Password confirmation does not match', 401);
+    }
+
     const hashPassword = await bcrypt.hash(newuser.password, 10);
     newuser.password = hashPassword;
 
