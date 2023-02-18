@@ -20,8 +20,8 @@ export class LoginUserDTO {
 /** login token dto */
 export class LoginTokenDTO {
   /** token */
-  @ApiProperty({ required: true })
-  @IsString()
   access_token: string;
+
+  /** usuario */
   user: User;
 }
