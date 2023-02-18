@@ -10,6 +10,7 @@ import { UsersService } from '../users/users.service';
 describe('AuthController', () => {
   let controller: AuthController;
   let service: AuthService;
+  const date = new Date();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -61,9 +62,19 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should return a token', async () => {
-      jest
-        .spyOn(service, 'login')
-        .mockImplementation(() => Promise.resolve({ access_token: 'token' }));
+      jest.spyOn(service, 'login').mockImplementation(() =>
+        Promise.resolve({
+          access_token: 'token',
+          user: {
+            name: 'name',
+            surname: 'surname',
+            email: 'email@email.es',
+            id: 11,
+            created_at: date,
+            updated_at: date,
+          },
+        }),
+      );
 
       expect(
         controller.login({

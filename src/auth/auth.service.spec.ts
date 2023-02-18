@@ -13,6 +13,7 @@ describe('AuthService', () => {
   let service: AuthService;
   let repo: Repository<User>;
   let jwt: JwtService;
+  const date = new Date();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -72,9 +73,8 @@ describe('AuthService', () => {
         name: 'nombre',
         surname: 'apellido',
         email: 'email@email.es',
-        updated_at: new Date(),
-        created_at: new Date(),
-        password: '123123',
+        updated_at: date,
+        created_at: date,
       });
 
       jest.spyOn(jwt, 'sign').mockReturnValueOnce('token');
@@ -84,7 +84,17 @@ describe('AuthService', () => {
           email: 'email@email.es',
           password: '123123',
         }),
-      ).toEqual({ access_token: 'token' });
+      ).toEqual({
+        access_token: 'token',
+        user: {
+          id: 1,
+          name: 'nombre',
+          surname: 'apellido',
+          email: 'email@email.es',
+          updated_at: date,
+          created_at: date,
+        },
+      });
     });
 
     it('invalid credentials', async () => {
