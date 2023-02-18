@@ -28,10 +28,12 @@ export class AuthService {
     if (!validatedUser) {
       return new HttpException('Email or password incorrect', 401);
     }
-
-    const payload = validatedUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...result } = validatedUser;
+    const payload = result;
     return {
       access_token: this.jwtService.sign({ payload }),
+      user: validatedUser,
     };
   }
 

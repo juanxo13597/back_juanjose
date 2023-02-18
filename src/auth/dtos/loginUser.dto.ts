@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { User } from '../../users/entities/user.entity';
 
 /** dto para login */
 export class LoginUserDTO {
@@ -22,4 +23,5 @@ export class LoginTokenDTO {
   @ApiProperty({ required: true })
   @IsString()
   access_token: string;
+  user: User;
 }
