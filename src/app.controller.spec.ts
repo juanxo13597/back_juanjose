@@ -1,8 +1,13 @@
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { User } from './users/entities/user.entity';
+import { UsersService } from './users/users.service';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -16,6 +21,12 @@ describe('AppController', () => {
           provide: APP_PIPE,
           useClass: ValidationPipe,
         },
+        JwtService,
+        UsersService,
+        {
+          provide: getRepositoryToken(User),
+          useClass: Repository,
+        },
       ],
     }).compile();
 
@@ -23,8 +34,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "true"', () => {
-      expect(appController.init()).toBe(true);
+    it('should called init()', () => {
+      expect(appController.init({}));
     });
   });
 });

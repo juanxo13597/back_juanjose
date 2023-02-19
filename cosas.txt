@@ -1,1 +1,1 @@
-.
+agregar secret key jwt como variable de entorno

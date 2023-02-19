@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Request } from '@nestjs/common';
+import { appModel } from './app.model';
 import { AppService } from './app.service';
 
 /** controler principal */
@@ -8,7 +9,7 @@ export class AppController {
 
   /** comprobacion de backend */
   @Get('init')
-  init(): boolean {
-    return this.appService.init();
+  init(@Request() req): Promise<appModel> {
+    return this.appService.init(req.headers);
   }
 }
